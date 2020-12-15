@@ -7,10 +7,12 @@ class ResultPage extends StatelessWidget {
     Key key,
     @required this.idResultAsMap,
     @required this.currentResultData,
+    @required this.codeResult,
   }) : super(key: key);
 
   final List<dynamic> currentResultData;
   final List idResultAsMap;
+  final codeResult;
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +32,24 @@ class ResultPage extends StatelessWidget {
             children: [
               Flexible(flex: 1, child: Container()),
               Flexible(
-                flex: 15,
+                flex: 16,
                 child: Column(
                   children: [
                     Flexible(
-                      flex: 10,
+                      flex: 8,
                       child: ListView(
                         children: [
                           SizedBox(height: sentenceLineSpacing),
                           CustomCard(
                             isMain: true,
                             idResultAsMap: idResultAsMap,
-                            cardTitle: currentResultData[1],
-                            cardSubTitle: '',
+                            cardTitle: '나의 실전배틀 유형',
+                            titleColor: Colors.red,
+                            cardSubTitle: currentResultData[1],
+                            imagePath: 'assets/images/resultFull0' +
+                                codeResult.toString() +
+                                '.png',
+                            imageScale: 1,
                             cardText01: currentResultData[2],
                             cardText02: currentResultData[3],
                             cardText03: currentResultData[4],
@@ -50,8 +57,11 @@ class ResultPage extends StatelessWidget {
                           SizedBox(height: sentenceLineSpacing),
                           CustomCard(
                               isMain: false,
-                              cardTitle: '나에게 손쉬운 상대',
+                              cardTitle: '상대하기 쉬운 유형',
+                              titleColor: Colors.blue[600],
                               cardSubTitle: currentResultData[5],
+                              imagePath: '',
+                              imageScale: 1,
                               cardText01: currentResultData[6],
                               cardText02: '',
                               cardText03: ''),
@@ -59,18 +69,35 @@ class ResultPage extends StatelessWidget {
                           CustomCard(
                               isMain: false,
                               cardTitle: '상대하기 어려운 유형',
+                              titleColor: Colors.grey[800],
                               cardSubTitle: currentResultData[7],
+                              imagePath: '',
+                              imageScale: 1,
                               cardText01: currentResultData[8],
                               cardText02: '',
                               cardText03: ''),
                           SizedBox(height: sentenceLineSpacing),
-                          CustomCard(
-                              isMain: false,
-                              cardTitle: '',
-                              cardSubTitle: '개발자 소개',
-                              cardText01: '오트밀_',
-                              cardText02: '종합게임 스트리머 겸 예비개발자입니다.',
-                              cardText03: ''),
+                          Card(
+                            elevation: 6,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Container(
+                              decoration: BoxDecoration(color: Colors.red),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                  "아래의 공유하기 버튼을 눌러 결과를 공유해보세요~",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: sentenceLineSpacing),
+                          NameCard(),
                           SizedBox(height: 50),
                         ],
                       ),

@@ -99,6 +99,7 @@ class _AnswerSheetPageState extends State<AnswerSheetPage> {
             MaterialPageRoute(
                 fullscreenDialog: true,
                 builder: (context) => ResultPage(
+                      codeResult: codeResult,
                       idResultAsMap: idResultAsMap,
                       currentResultData: currentResultData,
                     )));

@@ -32,6 +32,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   csv: ^4.1.0
+  url_launcher: ^5.7.10
   percent_indicator: "^2.1.7+2"
 
 # For information on the generic Dart part of this file, see the
@@ -50,8 +51,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   assets:
-    - assets/pokemon_test_question.csv
-    - assets/pokemon_test_results.csv
+    - assets/
+    - assets/images
+    - assets/icons
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
