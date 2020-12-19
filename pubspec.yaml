@@ -31,8 +31,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  #  integration_test: ^1.0.1
+  fluro: ^1.7.8
   csv: ^4.1.0
   url_launcher: ^5.7.10
+  clipboard: ^0.1.2+8
   percent_indicator: "^2.1.7+2"
 
 # For information on the generic Dart part of this file, see the
@@ -52,8 +55,8 @@ flutter:
 
   assets:
     - assets/
-    - assets/images
-    - assets/icons
+    - assets/images/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:pokemon_test/pages/home_page.dart';
+import './pages/home_page.dart';
+import './services/fluro_route.dart';
 
 void main() {
+  FluroRoutes.setupRouter();
   runApp(MyApp());
-}
-
-mixin PortraitModeMixin on StatelessWidget {
-  void _portraitModeOnly() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _portraitModeOnly();
-    return null;
-  }
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: '포켓몬 실전배틀 유형테스트 | 당신의 실전배틀 성향을 알아보세요!',
+      // routes: Router.router,
+      onGenerateRoute: FluroRoutes.fluroRouter.generator,
       theme: ThemeData(
         primarySwatch: Colors.red,
         fontFamily: 'Jua',

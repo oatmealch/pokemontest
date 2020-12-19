@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html  lang="ko-KR">
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    Fore more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+  -->
+  <base href="/">
+
+  <title>포켓몬 실전배틀 유형테스트 | 당신의 실전배틀 성향을 알아보세요!</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="canonical" href="https://pokemon-personality-test.web.app">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="나는 어떤 유형의 트레이너일까? 당신의 실전배틀 성향을 알아보세요.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="naver-site-verification" content="69ff7e8d551995f81b4b333189d37a9d9be5fc4e" />
+  <meta property="og:url" content="https://pokemon-personality-test.web.app" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="포켓몬 실전배틀 유형테스트" />
+  <meta property="og:description" content="나는 어떤 유형의 트레이너일까? 당신의 실전배틀 성향을 알아보세요." />
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/pokemon-personality-test.appspot.com/o/resultFull01.jpg?alt=media&token=7eb92641-d0e7-4cbe-bf5e-23776576615b" />
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="pokemon_test">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+
+</head>
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="/__/firebase/8.2.1/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="/__/firebase/8.2.1/firebase-analytics.js"></script>
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
+</body>
+</html>

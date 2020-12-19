@@ -23,11 +23,14 @@ class CustomRaisedButton extends StatelessWidget {
       width: buttonWidth,
       height: buttonHeight,
       child: RaisedButton(
-        child: Text(
-          buttonText,
-          style: TextStyle(
-            color: textColor,
-            fontSize: buttonFontSize,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: buttonTextPadding),
+          child: Text(
+            buttonText,
+            style: TextStyle(
+              color: textColor,
+              fontSize: buttonFontSize,
+            ),
           ),
         ),
         color: buttonColor,
@@ -56,17 +59,17 @@ class AnswerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     int answerIndex = whereAnswerStarts + ((thisButtonNumber - 1) * 4);
     return CustomRaisedButton(
-      buttonText: currentQuestionData.asMap()[answerIndex].toString(),
+      buttonText: currentQuestionData[answerIndex].toString(),
       buttonWidth: 700,
       buttonFontSize: 18,
       buttonHeight: 80,
-      buttonTextPadding: 6,
-      buttonColor: Colors.white70,
-      textColor: Colors.black54,
+      buttonTextPadding: 25,
+      buttonColor: Colors.grey[800],
+      textColor: Colors.white,
       onPressed: () => answerPressed(
-        currentQuestionData.asMap()[answerIndex + 1],
-        currentQuestionData.asMap()[answerIndex + 2],
-        currentQuestionData.asMap()[answerIndex + 3],
+        currentQuestionData[answerIndex + 1],
+        currentQuestionData[answerIndex + 2],
+        currentQuestionData[answerIndex + 3],
       ),
     );
   }
