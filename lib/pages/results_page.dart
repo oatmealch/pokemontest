@@ -215,9 +215,9 @@ class ShareButton extends StatelessWidget {
       child: Text("내용이 복사되었습니다! 채팅창이나 SNS에 붙여넣어 공유해주세요~"),
     )));
 
-    FlutterClipboard.copy('포켓몬 실전배틀 유형테스트 결과 저의 유형은 <' +
+    FlutterClipboard.copy('저의 유형은 <' +
         resultTitle +
-        '> 여러분은 뭐가 나올까요? https://pokemon-personality-test.ga/result/0' +
+        '> 여러분은 뭐가 나올까요? https://pokemon-personality-test.ga/#/result/' +
         codeResult.toString());
   }
 
