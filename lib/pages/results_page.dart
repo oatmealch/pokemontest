@@ -7,35 +7,17 @@ import '../common_widgets/raised_buttons.dart';
 import '../common_widgets/name_card.dart';
 
 class ResultPage extends StatefulWidget {
-  // const ResultPage({
-  //   Key key,
-  //   @required this.codeResult,
-  // }) : super(key: key);
-
-  // final codeResult;
-
-  final String id;
-  ResultPage(this.id);
+  final String id, sharedCheck;
+  ResultPage(this.id, this.sharedCheck);
 
   @override
-  _ResultPageState createState() => _ResultPageState(this.id);
+  _ResultPageState createState() => _ResultPageState(this.id, this.sharedCheck);
 }
 
 class _ResultPageState extends State<ResultPage> {
-  _ResultPageState(this.id);
+  _ResultPageState(this.id, this.sharedCheck);
 
-  final String id;
-
-  final List<List<int>> decodeMap = [
-    [1, 1, 1],
-    [1, 1, 0],
-    [1, 0, 1],
-    [1, 0, 0],
-    [0, 1, 1],
-    [0, 1, 0],
-    [0, 0, 1],
-    [0, 0, 0]
-  ];
+  final String id, sharedCheck;
   List<List<dynamic>> resultData = [];
   List<dynamic> currentResultData = [];
 
@@ -44,7 +26,7 @@ class _ResultPageState extends State<ResultPage> {
         await rootBundle.loadString("assets/pokemon_test_results.csv");
     List<List<dynamic>> csvResults = CsvToListConverter().convert(csvData);
     resultData = csvResults;
-    currentResultData = resultData[int.parse(id)];
+    currentResultData = resultData[int.parse(id) + 1];
     setState(() {});
   }
 
@@ -52,7 +34,13 @@ class _ResultPageState extends State<ResultPage> {
   @mustCallSuper
   void initState() {
     super.initState();
-    loadResult();
+    if (int.parse(id) < 8) {
+      if (sharedCheck == "shared" || sharedCheck == '') {
+        loadResult();
+      }
+    } else {
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+    }
   }
 
   @override
@@ -60,7 +48,13 @@ class _ResultPageState extends State<ResultPage> {
     final codeResult = int.parse(widget.id);
     String resultTitle = currentResultData[1];
     var screenSize = MediaQuery.of(context).size;
-    final List idResultAsMap = decodeMap[codeResult - 1];
+
+    final List idResultAsMap = [
+      codeResult ~/ 4,
+      codeResult > 4 ? (codeResult - 4) ~/ 2 : (codeResult) ~/ 2,
+      codeResult % 2,
+    ];
+
     return Scaffold(
         appBar: AppBar(
           title: Text('테스트 결과',
@@ -88,7 +82,7 @@ class _ResultPageState extends State<ResultPage> {
                             cardTitle: '나의 실전배틀 유형',
                             titleColor: Colors.red,
                             cardSubTitle: resultTitle,
-                            imagePath: 'assets/images/resultFull0' +
+                            imagePath: 'assets/images/result-' +
                                 codeResult.toString() +
                                 '.jpg',
                             imageHeight: 350,
@@ -111,7 +105,7 @@ class _ResultPageState extends State<ResultPage> {
                                   cardTitle: '상대하기 편한 유형',
                                   titleColor: Colors.blue[600],
                                   cardSubTitle: currentResultData[6],
-                                  imagePath: 'assets/images/resultFull0' +
+                                  imagePath: 'assets/images/result-' +
                                       currentResultData[5].toString() +
                                       '.jpg',
                                   imageHeight: 230,
@@ -127,7 +121,7 @@ class _ResultPageState extends State<ResultPage> {
                                   cardTitle: '상대하기 어려운 유형',
                                   titleColor: Colors.grey[800],
                                   cardSubTitle: currentResultData[9],
-                                  imagePath: 'assets/images/resultFull0' +
+                                  imagePath: 'assets/images/result-' +
                                       currentResultData[8].toString() +
                                       '.jpg',
                                   imageHeight: 230,
@@ -170,7 +164,9 @@ class _ResultPageState extends State<ResultPage> {
                                               ),
                                               Center(
                                                 child: Text(
-                                                    "아래의 결과복사 버튼을 눌러서 이 테스트를 공유해주세요~",
+                                                    sharedCheck == "shared"
+                                                        ? '아래의 버튼을 눌러 여러분도 테스트를 해보세요~'
+                                                        : '아래의 결과복사 버튼을 눌러서 이 테스트를 공유해주세요~',
                                                     style: TextStyle(
                                                       color: Colors.black87,
                                                       fontSize: 18,
@@ -186,11 +182,11 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                     Flexible(
                         flex: 1,
-                        child: currentResultData[5] != 0
-                            ? ShareButton(
-                                codeResult: codeResult,
-                                resultTitle: resultTitle)
-                            : null)
+                        child: ShareButton(
+                          codeResult: codeResult,
+                          resultTitle: resultTitle,
+                          isShared: sharedCheck == "shared",
+                        ))
                   ],
                 ),
               ),
@@ -202,11 +198,15 @@ class _ResultPageState extends State<ResultPage> {
 }
 
 class ShareButton extends StatelessWidget {
-  const ShareButton(
-      {Key key, @required this.codeResult, @required this.resultTitle})
-      : super(key: key);
+  const ShareButton({
+    Key key,
+    @required this.codeResult,
+    @required this.resultTitle,
+    @required this.isShared,
+  }) : super(key: key);
   final int codeResult;
   final String resultTitle;
+  final bool isShared;
 
   void _shareResult(context) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -217,8 +217,12 @@ class ShareButton extends StatelessWidget {
 
     FlutterClipboard.copy('저의 유형은 <' +
         resultTitle +
-        '> 여러분은 뭐가 나올까요? https://pokemon-personality-test.ga/#/result/' +
+        '> 여러분은 뭐가 나올까요? https://pokemon-personality-share.web.app/' +
         codeResult.toString());
+  }
+
+  void _tryAgain(context) {
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
   @override
@@ -229,10 +233,10 @@ class ShareButton extends StatelessWidget {
         buttonColor: Colors.red,
         buttonFontSize: 24,
         buttonHeight: 50,
-        buttonText: '결과 복사',
+        buttonText: isShared ? '나도 해보기' : '결과 복사',
         textColor: Colors.white,
         buttonTextPadding: 3,
-        onPressed: () => _shareResult(context),
+        onPressed: () => isShared ? _tryAgain(context) : _shareResult(context),
       ),
     );
   }

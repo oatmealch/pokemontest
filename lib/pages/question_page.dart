@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:csv/csv.dart';
-import '../services/fluro_route.dart';
+import '../services/routes.dart';
 import './answer_button_layout.dart';
 import '../common_widgets/question_content.dart';
 import './loading_result.dart';
@@ -20,19 +20,9 @@ class _QuestionPageState extends State<QuestionPage> {
   int scorePassion = 0;
   int scoreConfidence = 0;
 
-  int levelMastered, levelPassion, levelConfidence, codeResult, idResultAsInt;
+  int levelMastered, levelPassion, levelConfidence, codeResult;
   List idResultAsMap = [];
   int whereAnswerStarts = 6;
-  Map<int, int> codeMap = {
-    222: 1,
-    221: 2,
-    212: 3,
-    211: 4,
-    122: 5,
-    121: 6,
-    112: 7,
-    111: 8,
-  };
 
   @protected
   @mustCallSuper
@@ -62,56 +52,36 @@ class _QuestionPageState extends State<QuestionPage> {
     idResultAsMap.add(levelMastered);
     idResultAsMap.add(levelPassion);
     idResultAsMap.add(levelConfidence);
-    idResultAsInt = (levelMastered + 1) * 100 +
-        (levelPassion + 1) * 10 +
-        (levelConfidence + 1);
-
-    codeResult = codeMap[idResultAsInt];
+    codeResult = levelMastered * 4 + levelPassion * 2 + levelConfidence;
     setState(() {});
   }
 
   void answerPressed(int addMastered, int addPassion, int addConfidence) {
     questionScrollController.animateTo(-4096,
         curve: Curves.linear, duration: Duration(milliseconds: 50));
-
-    if (questionNumber < 12) {
-      questionNumber += 1;
-    } else if (questionNumber == 12) {
-      _convertScoreToLevel();
-
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (context) => LoadingResultPage()));
-      Future.delayed(const Duration(milliseconds: 2000), () {
-        Navigator.pop(context);
-        Navigator.pop(context);
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         fullscreenDialog: true,
-        //         builder: (context) => ResultPage(
-        //               codeResult: codeResult,
-        //             )));
-
-        // Navigator.of(context).pushNamed(FluroRoutes.RouteToResultPage,
-        //     arguments: {"id": codeResult});
-
-        FluroRoutes.fluroRouter.navigateTo(
-            context,
-            FluroRoutes.routeToResultPage
-                .replaceAll(":id", codeResult.toString()));
-      });
-    }
     scoreMastered += addMastered;
     scorePassion += addPassion;
     scoreConfidence += addConfidence;
-    print('문항번호: $questionNumber' +
+    questionNumber += 1;
+    setState(() {});
+    if (questionNumber > 12) {
+      _convertScoreToLevel();
+      Future.delayed(const Duration(milliseconds: 2000), () {
+        Navigator.pop(context);
+        FluroRoutes.fluroRouter.navigateTo(
+          context,
+          FluroRoutes.routeToResultPage
+              .replaceAll(":id", codeResult.toString())
+              .replaceAll(":sharedCheck", ''),
+          // transition: TransitionType.inFromRight,
+        );
+      });
+    }
+    print('문항번호: ' +
+        (questionNumber - 1).toString() +
         ' / 숙련도: $scoreMastered' +
         ' / 승부욕: $scorePassion' +
         ' / 자신감: $scoreConfidence');
-    setState(() {});
   }
 
   loadQuestion() async {
@@ -133,70 +103,75 @@ class _QuestionPageState extends State<QuestionPage> {
                 fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700),
           ),
         ),
-        body: Center(
-          child: Column(
-            children: [
-              Flexible(
-                flex: 1,
-                child: Container(
-                  width: screenSize.width * 0.8,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(width: 10),
-                        Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: LinearPercentIndicator(
-                              width: screenSize.width * 0.4,
-                              lineHeight: 15,
-                              percent: questionNumber / 12,
-                              backgroundColor: Colors.red[100],
-                              progressColor: Colors.red,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Text(
-                              questionNumber.toString() + '/12',
-                              style: TextStyle(
-                                  color: Colors.grey[800],
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                        ),
-                      ]),
-                ),
-              ),
-              Flexible(
-                flex: 8,
-                child: SingleChildScrollView(
-                  controller: questionScrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      QuestionContent(
-                          currentQuestionData: questionData[questionNumber],
-                          questionNumber: questionNumber),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: AnswerSheetPage(
-                            currentQuestionData: questionData[questionNumber],
-                            questionNumber: questionNumber,
-                            scoreMastered: scoreMastered,
-                            scorePassion: scorePassion,
-                            scoreConfidence: scoreConfidence,
-                            answerPressed: answerPressed),
+        body: questionNumber > 12
+            ? LoadingResultPage()
+            : Center(
+                child: Column(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        width: screenSize.width * 0.8,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(width: 10),
+                              Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Center(
+                                  child: LinearPercentIndicator(
+                                    width: screenSize.width * 0.4,
+                                    lineHeight: 15,
+                                    percent: questionNumber / 12,
+                                    backgroundColor: Colors.red[100],
+                                    progressColor: Colors.red,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Center(
+                                  child: Text(
+                                    questionNumber.toString() + '/12',
+                                    style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                ),
+                              ),
+                            ]),
                       ),
-                    ],
-                  ),
+                    ),
+                    Flexible(
+                      flex: 9,
+                      child: SingleChildScrollView(
+                        controller: questionScrollController,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            QuestionContent(
+                                currentQuestionData:
+                                    questionData[questionNumber],
+                                questionNumber: questionNumber),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              child: AnswerSheetPage(
+                                  currentQuestionData:
+                                      questionData[questionNumber],
+                                  questionNumber: questionNumber,
+                                  scoreMastered: scoreMastered,
+                                  scorePassion: scorePassion,
+                                  scoreConfidence: scoreConfidence,
+                                  answerPressed: answerPressed),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ));
+              ));
   }
 }

@@ -31,12 +31,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  #  integration_test: ^1.0.1
   fluro: ^1.7.8
   csv: ^4.1.0
+  firebase_core: ^0.5.3
+  #  cloud_firestore: ^0.14.4
   url_launcher: ^5.7.10
   clipboard: ^0.1.2+8
-  percent_indicator: "^2.1.7+2"
+  percent_indicator: ^2.1.7+2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

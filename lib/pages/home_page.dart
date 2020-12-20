@@ -19,37 +19,35 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Center(
-              child: Flex(
-                mainAxisAlignment: MainAxisAlignment.center,
-                direction:
-                    screenSize.width > 750 ? Axis.horizontal : Axis.vertical,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('포켓몬스터',
-                        style: TextStyle(
-                            fontFamily: 'NotoSansKR',
-                            fontSize: 40,
-                            fontWeight: FontWeight.w900)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('실전배틀 유형 테스트  ',
-                        style: TextStyle(
-                            fontFamily: 'NotoSansKR',
-                            fontSize: 40,
-                            fontWeight: FontWeight.w900)),
-                  ),
-                ],
-              ),
+            Flex(
+              mainAxisAlignment: MainAxisAlignment.center,
+              direction:
+                  screenSize.width > 750 ? Axis.horizontal : Axis.vertical,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('포켓몬스터',
+                      style: TextStyle(
+                          fontFamily: 'NotoSansKR',
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('실전배틀 유형 테스트  ',
+                      style: TextStyle(
+                          fontFamily: 'NotoSansKR',
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900)),
+                ),
+              ],
             ),
             Image.asset(
-              'assets/images/resultFull01.jpg',
+              'assets/images/result-7.jpg',
               fit: BoxFit.contain,
               width: screenSize.width * 0.8,
               height: screenSize.height * 0.5,

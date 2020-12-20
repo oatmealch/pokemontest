@@ -62,7 +62,7 @@ class AnswerButton extends StatelessWidget {
       buttonText: currentQuestionData[answerIndex].toString(),
       buttonWidth: 700,
       buttonFontSize: 18,
-      buttonHeight: 80,
+      buttonHeight: 70,
       buttonTextPadding: 25,
       buttonColor: Colors.grey[800],
       textColor: Colors.white,
