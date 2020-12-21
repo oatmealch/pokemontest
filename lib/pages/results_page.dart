@@ -51,7 +51,7 @@ class _ResultPageState extends State<ResultPage> {
 
     final List idResultAsMap = [
       codeResult ~/ 4,
-      codeResult > 4 ? (codeResult - 4) ~/ 2 : (codeResult) ~/ 2,
+      codeResult >= 4 ? (codeResult - 4) ~/ 2 : (codeResult) ~/ 2,
       codeResult % 2,
     ];
 
@@ -76,15 +76,13 @@ class _ResultPageState extends State<ResultPage> {
                         child: Column(children: [
                           CustomCard(
                             cardWidth: 1200,
-                            cardHeight: screenSize.width > 1400 ? 800 : null,
+                            cardHeight: null,
                             isMain: true,
                             idResultAsMap: idResultAsMap,
                             cardTitle: '나의 실전배틀 유형',
                             titleColor: Colors.red,
                             cardSubTitle: resultTitle,
-                            imagePath: 'assets/images/result-' +
-                                codeResult.toString() +
-                                '.jpg',
+                            codeResult: codeResult,
                             imageHeight: 350,
                             cardText01: currentResultData[2],
                             cardText02: currentResultData[3],
@@ -105,9 +103,7 @@ class _ResultPageState extends State<ResultPage> {
                                   cardTitle: '상대하기 편한 유형',
                                   titleColor: Colors.blue[600],
                                   cardSubTitle: currentResultData[6],
-                                  imagePath: 'assets/images/result-' +
-                                      currentResultData[5].toString() +
-                                      '.jpg',
+                                  codeResult: currentResultData[5],
                                   imageHeight: 230,
                                   cardText01: currentResultData[7],
                                   cardText02: '',
@@ -121,9 +117,7 @@ class _ResultPageState extends State<ResultPage> {
                                   cardTitle: '상대하기 어려운 유형',
                                   titleColor: Colors.grey[800],
                                   cardSubTitle: currentResultData[9],
-                                  imagePath: 'assets/images/result-' +
-                                      currentResultData[8].toString() +
-                                      '.jpg',
+                                  codeResult: currentResultData[8],
                                   imageHeight: 230,
                                   cardText01: currentResultData[10],
                                   cardText02: '',
@@ -229,13 +223,12 @@ class ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CustomRaisedButton(
-        buttonWidth: 150,
+        buttonWidth: 200,
         buttonColor: Colors.red,
         buttonFontSize: 24,
         buttonHeight: 50,
         buttonText: isShared ? '나도 해보기' : '결과 복사',
         textColor: Colors.white,
-        buttonTextPadding: 3,
         onPressed: () => isShared ? _tryAgain(context) : _shareResult(context),
       ),
     );

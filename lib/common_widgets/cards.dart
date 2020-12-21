@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pokemon_test/common_widgets/cached_images.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard({
@@ -12,7 +14,7 @@ class CustomCard extends StatelessWidget {
     @required this.cardText01,
     @required this.cardText02,
     @required this.cardText03,
-    @required this.imagePath,
+    @required this.codeResult,
     @required this.imageHeight,
     @required this.titleColor,
     this.idResultAsMap,
@@ -21,7 +23,7 @@ class CustomCard extends StatelessWidget {
   final String cardTitle, cardSubTitle, cardText01, cardText02, cardText03;
   final bool isMain;
   final List idResultAsMap;
-  final String imagePath;
+  final int codeResult;
   final double imageHeight;
   final Color titleColor;
 
@@ -32,6 +34,8 @@ class CustomCard extends StatelessWidget {
     final double indicatorStroke = 15;
     final Color highColor = Colors.blue;
     final Color lowColor = Colors.greenAccent[700];
+    int yourResponse, wholeResponse;
+    double yourPercentage;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 6.0),
@@ -67,11 +71,20 @@ class CustomCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 15.0),
-                  child: Image.asset(
-                    imagePath,
+                  child: ResultImage(
+                    codeResult: codeResult,
                     height: imageHeight,
                   ),
                 ),
+                isMain
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: Text(
+                          '전체 응답자의 $yourPercentage%가 당신과 같은 유형입니다.',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      )
+                    : Container(),
                 isMain
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 15.0),

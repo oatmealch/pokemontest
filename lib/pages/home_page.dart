@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
+import '../common_widgets/cached_images.dart';
 import '../pages/question_page.dart';
 import '../common_widgets/raised_buttons.dart';
 
@@ -46,10 +48,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Image.asset(
-              'assets/images/result-7.jpg',
-              fit: BoxFit.contain,
-              width: screenSize.width * 0.8,
+            ResultImage(
+              codeResult: 4,
+              width: screenSize.width > 1200
+                  ? screenSize.width * 0.7
+                  : screenSize.width,
               height: screenSize.height * 0.5,
             ),
             Center(
@@ -61,8 +64,7 @@ class _HomePageState extends State<HomePage> {
               child: CustomRaisedButton(
                 buttonFontSize: 30,
                 buttonHeight: 70,
-                buttonWidth: 240,
-                buttonTextPadding: 10,
+                buttonWidth: 250,
                 buttonText: '테스트 시작',
                 buttonColor: Colors.red,
                 textColor: Colors.white,

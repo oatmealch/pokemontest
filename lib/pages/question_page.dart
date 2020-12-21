@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:csv/csv.dart';
 import '../services/routes.dart';
-import './answer_button_layout.dart';
+import '../common_widgets/answer_button_layout.dart';
 import '../common_widgets/question_content.dart';
 import './loading_result.dart';
 
@@ -57,8 +57,11 @@ class _QuestionPageState extends State<QuestionPage> {
   }
 
   void answerPressed(int addMastered, int addPassion, int addConfidence) {
-    questionScrollController.animateTo(-4096,
-        curve: Curves.linear, duration: Duration(milliseconds: 50));
+    questionScrollController.animateTo(
+      0,
+      curve: Curves.linear,
+      duration: Duration(milliseconds: 50),
+    );
     scoreMastered += addMastered;
     scorePassion += addPassion;
     scoreConfidence += addConfidence;
@@ -66,14 +69,13 @@ class _QuestionPageState extends State<QuestionPage> {
     setState(() {});
     if (questionNumber > 12) {
       _convertScoreToLevel();
-      Future.delayed(const Duration(milliseconds: 2000), () {
+      Future.delayed(const Duration(milliseconds: 3000), () {
         Navigator.pop(context);
         FluroRoutes.fluroRouter.navigateTo(
           context,
           FluroRoutes.routeToResultPage
               .replaceAll(":id", codeResult.toString())
               .replaceAll(":sharedCheck", ''),
-          // transition: TransitionType.inFromRight,
         );
       });
     }
@@ -148,9 +150,11 @@ class _QuestionPageState extends State<QuestionPage> {
                       child: SingleChildScrollView(
                         controller: questionScrollController,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             QuestionContent(
+                                questionScrollController:
+                                    questionScrollController,
                                 currentQuestionData:
                                     questionData[questionNumber],
                                 questionNumber: questionNumber),
@@ -165,11 +169,11 @@ class _QuestionPageState extends State<QuestionPage> {
                                   scorePassion: scorePassion,
                                   scoreConfidence: scoreConfidence,
                                   answerPressed: answerPressed),
-                            ),
+                            )
                           ],
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ));

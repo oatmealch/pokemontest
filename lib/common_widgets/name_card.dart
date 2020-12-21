@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NameCard extends StatelessWidget {
@@ -60,17 +61,17 @@ class NameCard extends StatelessWidget {
                                   scale: 1.0),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(height: 10),
-                                  Text('종합게임 스트리머 .',
+                                  Text('종합게임 스트리머',
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontFamily: 'NotoSansKR'),
                                       textAlign: TextAlign.left),
-                                  Text('예비 개발자 .',
+                                  Text('예비 개발자',
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontFamily: 'NotoSansKR'),

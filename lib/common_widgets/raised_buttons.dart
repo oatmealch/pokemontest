@@ -6,14 +6,14 @@ class CustomRaisedButton extends StatelessWidget {
     @required this.buttonWidth,
     @required this.buttonFontSize,
     @required this.buttonHeight,
-    @required this.buttonTextPadding,
+    // @required this.buttonTextPadding,
     @required this.buttonColor,
     @required this.textColor,
     @required this.onPressed,
   });
 
   final String buttonText;
-  final double buttonWidth, buttonHeight, buttonFontSize, buttonTextPadding;
+  final double buttonWidth, buttonHeight, buttonFontSize;
   final Color buttonColor, textColor;
   final VoidCallback onPressed;
 
@@ -24,12 +24,14 @@ class CustomRaisedButton extends StatelessWidget {
       height: buttonHeight,
       child: RaisedButton(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: buttonTextPadding),
-          child: Text(
-            buttonText,
-            style: TextStyle(
-              color: textColor,
-              fontSize: buttonFontSize,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Center(
+            child: Text(
+              buttonText,
+              style: TextStyle(
+                color: textColor,
+                fontSize: buttonFontSize,
+              ),
             ),
           ),
         ),
@@ -63,7 +65,7 @@ class AnswerButton extends StatelessWidget {
       buttonWidth: 700,
       buttonFontSize: 18,
       buttonHeight: 70,
-      buttonTextPadding: 25,
+      // buttonTextPadding: 25,
       buttonColor: Colors.grey[800],
       textColor: Colors.white,
       onPressed: () => answerPressed(

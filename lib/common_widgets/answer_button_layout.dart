@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../common_widgets/raised_buttons.dart';
+import 'raised_buttons.dart';
 
 class AnswerSheetPage extends StatelessWidget {
   AnswerSheetPage({
