@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:pokemon_test/common_widgets/cached_images.dart';
+import '../services/get_percentage.dart';
+import '../common_widgets/images_network.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard({
@@ -34,8 +34,6 @@ class CustomCard extends StatelessWidget {
     final double indicatorStroke = 15;
     final Color highColor = Colors.blue;
     final Color lowColor = Colors.greenAccent[700];
-    int yourResponse, wholeResponse;
-    double yourPercentage;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 6.0),
@@ -52,12 +50,18 @@ class CustomCard extends StatelessWidget {
               decoration: BoxDecoration(color: titleColor),
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(cardTitle,
-                      style: TextStyle(
-                          color: Colors.white,
-                          height: 1.0,
-                          fontSize: cardTitle == '' ? 0 : 22)),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 6.0),
+                  child: FittedBox(
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    child: Text(cardTitle,
+                        style: TextStyle(
+                            fontFamily: 'Jua',
+                            color: Colors.white,
+                            height: 1.0,
+                            fontSize: cardTitle == '' ? 0 : 22)),
+                  ),
                 ),
               ),
             ),
@@ -65,12 +69,22 @@ class CustomCard extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 6.0),
               child: Column(children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(cardSubTitle,
-                      style: TextStyle(fontSize: cardSubTitle == '' ? 0 : 24)),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
+                  child: FittedBox(
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    child: Text(cardSubTitle,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: cardSubTitle == '' ? 0 : 24)),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 15.0),
+                  // child: Image.asset(
+                  //   'assets/images/result-' + codeResult.toString() + '.webp',
+                  //   height: imageHeight,
+                  // ),
                   child: ResultImage(
                     codeResult: codeResult,
                     height: imageHeight,
@@ -78,10 +92,12 @@ class CustomCard extends StatelessWidget {
                 ),
                 isMain
                     ? Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Text(
-                          '전체 응답자의 $yourPercentage%가 당신과 같은 유형입니다.',
-                          style: TextStyle(fontSize: 20),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 3.0),
+                        child: FittedBox(
+                          alignment: Alignment.center,
+                          fit: BoxFit.contain,
+                          child: GetPercentage(codeResult.toString()),
                         ),
                       )
                     : Container(),
@@ -100,8 +116,9 @@ class CustomCard extends StatelessWidget {
                                     ? highColor
                                     : lowColor,
                                 percent: (idResultAsMap[0] + 3) / 5,
-                                center:
-                                    Text('숙련도', style: TextStyle(fontSize: 20)),
+                                center: Text('숙련도',
+                                    style: TextStyle(
+                                        fontFamily: 'Jua', fontSize: 20)),
                               ),
                               CircularPercentIndicator(
                                 radius: indicatorDiameter,
@@ -110,8 +127,9 @@ class CustomCard extends StatelessWidget {
                                     ? highColor
                                     : lowColor,
                                 percent: (idResultAsMap[1] + 3) / 5,
-                                center:
-                                    Text('승부욕', style: TextStyle(fontSize: 20)),
+                                center: Text('승부욕',
+                                    style: TextStyle(
+                                        fontFamily: 'Jua', fontSize: 20)),
                               ),
                               CircularPercentIndicator(
                                 radius: indicatorDiameter,
@@ -120,8 +138,9 @@ class CustomCard extends StatelessWidget {
                                     ? highColor
                                     : lowColor,
                                 percent: (idResultAsMap[2] + 3) / 5,
-                                center:
-                                    Text('자신감', style: TextStyle(fontSize: 20)),
+                                center: Text('자신감',
+                                    style: TextStyle(
+                                        fontFamily: 'Jua', fontSize: 20)),
                               ),
                             ],
                           ),
@@ -139,8 +158,8 @@ class CustomCard extends StatelessWidget {
                         child: Text(cardText01,
                             textAlign: TextAlign.left,
                             style: TextStyle(
+                                fontWeight: FontWeight.w600,
                                 fontSize: 16,
-                                fontFamily: 'NotoSansKR',
                                 height: lineSpacing)),
                       ),
                     ),
@@ -155,29 +174,27 @@ class CustomCard extends StatelessWidget {
                                 child: Text(cardText02,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 16,
-                                        fontFamily: 'NotoSansKR',
                                         height: lineSpacing)),
                               ),
                             ),
                     ),
                     Container(
-                      child: cardText03 == ""
-                          ? null
-                          : Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 6.0, vertical: 8.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: Text(cardText03,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansKR',
-                                        height: lineSpacing)),
-                              ),
-                            ),
-                    )
+                        child: cardText03 == ""
+                            ? null
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6.0, vertical: 8.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(cardText03,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          height: lineSpacing)),
+                                )))
                   ]),
                 )
               ]),

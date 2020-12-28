@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../services/send_namecard_clicks.dart';
 
 class NameCard extends StatelessWidget {
-  void _launchURL(urlPath) async {
+  Future<void> _sendSNSClickEvent(String clickedSNS) async {
+    await FirebaseAnalytics().logEvent(name: clickedSNS, parameters: null);
+  }
+
+  void _launchURL(String urlPath, String clickedSNS) async {
     if (await canLaunch(urlPath)) {
       await launch(urlPath);
+      _sendSNSClickEvent(clickedSNS);
+      SendNamecardClicks(clickedSNS).sendNamecardClicks();
     } else {
       throw 'Could not launch $urlPath';
     }
@@ -37,6 +44,7 @@ class NameCard extends StatelessWidget {
                         padding: const EdgeInsets.all(4.0),
                         child: Text('개발자',
                             style: TextStyle(
+                                fontFamily: 'Jua',
                                 color: Colors.white,
                                 height: 1.0,
                                 fontSize: 24)),
@@ -63,25 +71,29 @@ class NameCard extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('종합게임 스트리머',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansKR'),
-                                      textAlign: TextAlign.left),
-                                  Text('예비 개발자',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansKR'),
-                                      textAlign: TextAlign.left),
-                                  Text('oatmealch@gmail.com',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansKR'),
-                                      textAlign: TextAlign.left),
-                                ],
+                              child: FittedBox(
+                                alignment: Alignment.centerLeft,
+                                fit: BoxFit.contain,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('종합게임 스트리머   ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16),
+                                        textAlign: TextAlign.left),
+                                    Text('예비 개발자    ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16),
+                                        textAlign: TextAlign.left),
+                                    Text('oatmealch@gmail.com',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14),
+                                        textAlign: TextAlign.left),
+                                  ],
+                                ),
                               ),
                             )
                           ],
@@ -108,7 +120,8 @@ class NameCard extends StatelessWidget {
                                 ),
                               )),
                               onPressed: () => _launchURL(
-                                  'https://oatmealch.blogspot.com/'))),
+                                  'https://oatmealch.blogspot.com/',
+                                  'clicked_blogger'))),
                       Flexible(
                           flex: 1,
                           child: RaisedButton(
@@ -123,7 +136,8 @@ class NameCard extends StatelessWidget {
                                 ),
                               )),
                               onPressed: () => _launchURL(
-                                  'https://www.youtube.com/channel/UC9Dprrn26PVQn1XIuLo-S4A'))),
+                                  'https://www.youtube.com/channel/UC9Dprrn26PVQn1XIuLo-S4A',
+                                  'clicked_youtube'))),
                       Flexible(
                           flex: 1,
                           child: RaisedButton(
@@ -138,7 +152,8 @@ class NameCard extends StatelessWidget {
                                 ),
                               )),
                               onPressed: () => _launchURL(
-                                  'https://www.twitch.tv/oatmealch'))),
+                                  'https://www.twitch.tv/oatmealch',
+                                  'clicked_twitch'))),
                       Flexible(
                           flex: 1,
                           child: RaisedButton(
@@ -153,7 +168,8 @@ class NameCard extends StatelessWidget {
                                 ),
                               )),
                               onPressed: () => _launchURL(
-                                  'https://twitter.com/oatmeal_vgc'))),
+                                  'https://twitter.com/oatmeal_vgc',
+                                  'clicked_twitter'))),
                     ],
                   ),
                 )

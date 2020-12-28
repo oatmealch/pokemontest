@@ -20,6 +20,7 @@ class _ResultPageState extends State<ResultPage> {
   final String id, sharedCheck;
   List<List<dynamic>> resultData = [];
   List<dynamic> currentResultData = [];
+  final ScrollController _scrollController = ScrollController();
 
   loadResult() async {
     final csvData =
@@ -61,132 +62,122 @@ class _ResultPageState extends State<ResultPage> {
               style: TextStyle(
                   fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700)),
         ),
-        body: Container(
-          color: Colors.grey[200],
-          child: Row(
-            children: [
-              Flexible(flex: 1, child: Container()),
-              Flexible(
-                flex: 25,
-                child: Column(
-                  children: [
-                    Flexible(
-                      flex: 8,
-                      child: SingleChildScrollView(
-                        child: Column(children: [
-                          CustomCard(
-                            cardWidth: 1200,
-                            cardHeight: null,
-                            isMain: true,
-                            idResultAsMap: idResultAsMap,
-                            cardTitle: '나의 실전배틀 유형',
-                            titleColor: Colors.red,
-                            cardSubTitle: resultTitle,
-                            codeResult: codeResult,
-                            imageHeight: 350,
-                            cardText01: currentResultData[2],
-                            cardText02: currentResultData[3],
-                            cardText03: currentResultData[4],
-                          ),
-                          Flex(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            direction: screenSize.width > 1400
-                                ? Axis.horizontal
-                                : Axis.vertical,
-                            children: [
-                              CustomCard(
-                                  cardWidth:
-                                      screenSize.width > 1400 ? 600 : 1200,
-                                  cardHeight:
-                                      screenSize.width > 1400 ? 450 : null,
-                                  isMain: false,
-                                  cardTitle: '상대하기 편한 유형',
-                                  titleColor: Colors.blue[600],
-                                  cardSubTitle: currentResultData[6],
-                                  codeResult: currentResultData[5],
-                                  imageHeight: 230,
-                                  cardText01: currentResultData[7],
-                                  cardText02: '',
-                                  cardText03: ''),
-                              CustomCard(
-                                  cardWidth:
-                                      screenSize.width > 1400 ? 600 : 1200,
-                                  cardHeight:
-                                      screenSize.width > 1400 ? 450 : null,
-                                  isMain: false,
-                                  cardTitle: '상대하기 어려운 유형',
-                                  titleColor: Colors.grey[800],
-                                  cardSubTitle: currentResultData[9],
-                                  codeResult: currentResultData[8],
-                                  imageHeight: 230,
-                                  cardText01: currentResultData[10],
-                                  cardText02: '',
-                                  cardText03: ''),
-                            ],
-                          ),
-                          Flex(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              direction: screenSize.width > 1400
-                                  ? Axis.horizontal
-                                  : Axis.vertical,
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: SizedBox(
-                                        width: screenSize.width > 1400
-                                            ? 500
-                                            : 1200,
-                                        height: screenSize.width > 1400
-                                            ? 300
-                                            : null,
-                                        child: Card(
-                                          elevation: 6,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Stack(
-                                            alignment:
-                                                AlignmentDirectional.center,
-                                            children: [
-                                              Image.asset(
-                                                screenSize.width > 1400
-                                                    ? 'assets/images/bigKlara.jpg'
-                                                    : 'assets/images/longKlara.jpg',
-                                                fit: BoxFit.cover,
-                                                alignment:
-                                                    Alignment.centerRight,
-                                              ),
-                                              Center(
-                                                child: Text(
-                                                    sharedCheck == "shared"
-                                                        ? '아래의 버튼을 눌러 여러분도 테스트를 해보세요~'
-                                                        : '아래의 결과복사 버튼을 눌러서 이 테스트를 공유해주세요~',
-                                                    style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 18,
-                                                    )),
-                                              )
-                                            ],
-                                          ),
-                                        ))),
-                                NameCard(),
-                              ]),
-                        ]),
-                      ),
+        backgroundColor: Colors.grey[200],
+        body: Column(
+          children: [
+            Flexible(
+              flex: 8,
+              child: Scrollbar(
+                controller: _scrollController,
+                radius: Radius.circular(6),
+                isAlwaysShown: true,
+                thickness: 20,
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(children: [
+                    CustomCard(
+                      cardWidth: 1200,
+                      cardHeight: null,
+                      isMain: true,
+                      idResultAsMap: idResultAsMap,
+                      cardTitle: '나의 실전배틀 유형',
+                      titleColor: Colors.red,
+                      cardSubTitle: resultTitle,
+                      codeResult: codeResult,
+                      imageHeight: 350,
+                      cardText01: currentResultData[2],
+                      cardText02: currentResultData[3],
+                      cardText03: currentResultData[4],
                     ),
-                    Flexible(
-                        flex: 1,
-                        child: ShareButton(
-                          codeResult: codeResult,
-                          resultTitle: resultTitle,
-                          isShared: sharedCheck == "shared",
-                        ))
-                  ],
+                    Flex(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      direction: screenSize.width > 1400
+                          ? Axis.horizontal
+                          : Axis.vertical,
+                      children: [
+                        CustomCard(
+                            cardWidth: screenSize.width > 1400 ? 600 : 1200,
+                            cardHeight: screenSize.width > 1400 ? 450 : null,
+                            isMain: false,
+                            cardTitle: '상대하기 편한 유형',
+                            titleColor: Colors.blue[600],
+                            cardSubTitle: currentResultData[6],
+                            codeResult: currentResultData[5],
+                            imageHeight: 230,
+                            cardText01: currentResultData[7],
+                            cardText02: '',
+                            cardText03: ''),
+                        CustomCard(
+                            cardWidth: screenSize.width > 1400 ? 600 : 1200,
+                            cardHeight: screenSize.width > 1400 ? 450 : null,
+                            isMain: false,
+                            cardTitle: '상대하기 어려운 유형',
+                            titleColor: Colors.grey[800],
+                            cardSubTitle: currentResultData[9],
+                            codeResult: currentResultData[8],
+                            imageHeight: 230,
+                            cardText01: currentResultData[10],
+                            cardText02: '',
+                            cardText03: ''),
+                      ],
+                    ),
+                    Flex(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        direction: screenSize.width > 1400
+                            ? Axis.horizontal
+                            : Axis.vertical,
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: SizedBox(
+                                  width: screenSize.width > 1400 ? 500 : 1200,
+                                  height: screenSize.width > 1400 ? 300 : null,
+                                  child: Card(
+                                    elevation: 6,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Stack(
+                                      alignment: AlignmentDirectional.center,
+                                      children: [
+                                        Image.asset(
+                                          screenSize.width > 1400
+                                              ? 'assets/images/bigKlara.jpg'
+                                              : 'assets/images/longKlara.jpg',
+                                          fit: BoxFit.cover,
+                                          alignment: Alignment.centerRight,
+                                        ),
+                                        Center(
+                                          child: FittedBox(
+                                            alignment: Alignment.center,
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                                sharedCheck == "shared"
+                                                    ? '아래의 버튼을 눌러 여러분도 테스트를 해보세요~'
+                                                    : '아래의 결과복사 버튼을 눌러서 이 테스트를 공유해주세요~',
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 18,
+                                                    fontFamily: 'Jua')),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ))),
+                          NameCard(),
+                        ]),
+                  ]),
                 ),
               ),
-              Flexible(flex: 1, child: Container()),
-            ],
-          ),
+            ),
+            Flexible(
+                flex: 1,
+                child: ShareButton(
+                  codeResult: codeResult,
+                  resultTitle: resultTitle,
+                  isShared: sharedCheck == "shared",
+                ))
+          ],
         ));
   }
 }

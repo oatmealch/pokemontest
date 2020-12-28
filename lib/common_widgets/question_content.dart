@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-import 'package:pokemon_test/common_widgets/cached_images.dart';
+import '../common_widgets/images_network.dart';
 
 class QuestionContent extends StatelessWidget {
   const QuestionContent({
@@ -20,12 +19,12 @@ class QuestionContent extends StatelessWidget {
     var screenSize = MediaQuery.of(context).size;
 
     return Container(
-      width: screenSize.width < 1200
-          ? screenSize.width * 0.9
-          : screenSize.width * 0.7,
-      height: screenSize.width < 1200
-          ? screenSize.height * 0.5
-          : screenSize.height * 0.55,
+      width: screenSize.width > 1200
+          ? screenSize.width * 0.45
+          : screenSize.width * 0.85,
+      height: screenSize.width > 1200
+          ? screenSize.height * 0.55
+          : screenSize.height * 0.5,
       child: SingleChildScrollView(
         controller: questionScrollController,
         child: Column(
@@ -40,8 +39,10 @@ class QuestionContent extends StatelessWidget {
                       child: Text(
                         currentQuestionData[1],
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontFamily: 'NotoSansKR', fontSize: 18),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       )),
             ),
             Padding(
@@ -53,8 +54,10 @@ class QuestionContent extends StatelessWidget {
                       child: Text(
                         currentQuestionData[2],
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontFamily: 'NotoSansKR', fontSize: 18),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       )),
             ),
             Padding(
@@ -66,8 +69,10 @@ class QuestionContent extends StatelessWidget {
                       child: Text(
                         currentQuestionData[3],
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontFamily: 'NotoSansKR', fontSize: 18),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       )),
             ),
             Padding(
@@ -79,12 +84,26 @@ class QuestionContent extends StatelessWidget {
                       child: Text(
                         currentQuestionData[4],
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontFamily: 'NotoSansKR', fontSize: 18),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       )),
             ),
             Container(
               child: currentQuestionData[5] != ''
+                  // ? Image.asset(
+                  //     'assets/images/question-' +
+                  //         questionNumber.toString() +
+                  //         '.webp',
+                  //     width: screenSize.width > 1200
+                  //         ? screenSize.width * 0.3
+                  //         : screenSize.width * 0.9,
+                  //     height: screenSize.width > 1200
+                  //         ? screenSize.width * 0.2
+                  //         : screenSize.width * 0.6,
+                  //   )
+
                   ? QuestionImage(
                       questionNumber: questionNumber,
                       width: screenSize.width > 1200

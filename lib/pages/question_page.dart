@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:csv/csv.dart';
+import '../services/send_result.dart';
+import '../services/send_answers.dart';
 import '../services/routes.dart';
 import '../common_widgets/answer_button_layout.dart';
 import '../common_widgets/question_content.dart';
@@ -32,9 +34,10 @@ class _QuestionPageState extends State<QuestionPage> {
   }
 
   final ScrollController questionScrollController = ScrollController();
+  Map<String, String> imageMap;
 
   void _convertScoreToLevel() {
-    if (scoreMastered < 60) {
+    if (scoreMastered < 70) {
       levelMastered = 0;
     } else {
       levelMastered = 1;
@@ -44,7 +47,7 @@ class _QuestionPageState extends State<QuestionPage> {
     } else {
       levelPassion = 1;
     }
-    if (scoreConfidence < 40) {
+    if (scoreConfidence < 50) {
       levelConfidence = 0;
     } else {
       levelConfidence = 1;
@@ -53,10 +56,12 @@ class _QuestionPageState extends State<QuestionPage> {
     idResultAsMap.add(levelPassion);
     idResultAsMap.add(levelConfidence);
     codeResult = levelMastered * 4 + levelPassion * 2 + levelConfidence;
+
     setState(() {});
   }
 
-  void answerPressed(int addMastered, int addPassion, int addConfidence) {
+  void answerPressed(
+      int addMastered, int addPassion, int addConfidence, int answerNumber) {
     questionScrollController.animateTo(
       0,
       curve: Curves.linear,
@@ -66,9 +71,18 @@ class _QuestionPageState extends State<QuestionPage> {
     scorePassion += addPassion;
     scoreConfidence += addConfidence;
     questionNumber += 1;
+
+    //답변 전송
+    // SendAnswers(
+    //   (questionNumber - 1).toString(),
+    //   answerNumber.toString(),
+    // ).sendAnswers();
     setState(() {});
     if (questionNumber > 12) {
       _convertScoreToLevel();
+
+      //결과 전송
+      // SendResult(codeResult.toString()).sendResult();
       Future.delayed(const Duration(milliseconds: 3000), () {
         Navigator.pop(context);
         FluroRoutes.fluroRouter.navigateTo(
@@ -79,11 +93,11 @@ class _QuestionPageState extends State<QuestionPage> {
         );
       });
     }
-    print('문항번호: ' +
-        (questionNumber - 1).toString() +
-        ' / 숙련도: $scoreMastered' +
-        ' / 승부욕: $scorePassion' +
-        ' / 자신감: $scoreConfidence');
+    // print('문항번호: ' +
+    //     (questionNumber - 1).toString() +
+    //     ' / 숙련도: $scoreMastered' +
+    //     ' / 승부욕: $scorePassion' +
+    //     ' / 자신감: $scoreConfidence');
   }
 
   loadQuestion() async {
@@ -100,7 +114,7 @@ class _QuestionPageState extends State<QuestionPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '포켓몬 실전배틀 유형검사',
+            '포켓몬 실전배틀 유형테스트',
             style: TextStyle(
                 fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700),
           ),
@@ -108,12 +122,14 @@ class _QuestionPageState extends State<QuestionPage> {
         body: questionNumber > 12
             ? LoadingResultPage()
             : Center(
-                child: Column(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        width: screenSize.width * 0.8,
+                child: Container(
+                  width: screenSize.width > 1200
+                      ? screenSize.width * 0.5
+                      : screenSize.width * 0.9,
+                  child: Column(
+                    children: [
+                      Flexible(
+                        flex: 1,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -138,43 +154,53 @@ class _QuestionPageState extends State<QuestionPage> {
                                     style: TextStyle(
                                         color: Colors.grey[800],
                                         fontSize: 22,
+                                        fontFamily: 'Jua',
                                         fontWeight: FontWeight.w900),
                                   ),
                                 ),
                               ),
                             ]),
                       ),
-                    ),
-                    Flexible(
-                      flex: 9,
-                      child: SingleChildScrollView(
-                        controller: questionScrollController,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            QuestionContent(
-                                questionScrollController:
-                                    questionScrollController,
-                                currentQuestionData:
-                                    questionData[questionNumber],
-                                questionNumber: questionNumber),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              child: AnswerSheetPage(
-                                  currentQuestionData:
-                                      questionData[questionNumber],
-                                  questionNumber: questionNumber,
-                                  scoreMastered: scoreMastered,
-                                  scorePassion: scorePassion,
-                                  scoreConfidence: scoreConfidence,
-                                  answerPressed: answerPressed),
-                            )
-                          ],
+                      Flexible(
+                        flex: 9,
+                        child: SingleChildScrollView(
+                          controller: questionScrollController,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14)),
+                                clipBehavior: Clip.antiAlias,
+                                elevation: 2,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: QuestionContent(
+                                      questionScrollController:
+                                          questionScrollController,
+                                      currentQuestionData:
+                                          questionData[questionNumber],
+                                      questionNumber: questionNumber),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20.0),
+                                child: AnswerSheetPage(
+                                    currentQuestionData:
+                                        questionData[questionNumber],
+                                    questionNumber: questionNumber,
+                                    scoreMastered: scoreMastered,
+                                    scorePassion: scorePassion,
+                                    scoreConfidence: scoreConfidence,
+                                    answerPressed: answerPressed),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ));
   }

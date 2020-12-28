@@ -6,7 +6,6 @@ class CustomRaisedButton extends StatelessWidget {
     @required this.buttonWidth,
     @required this.buttonFontSize,
     @required this.buttonHeight,
-    // @required this.buttonTextPadding,
     @required this.buttonColor,
     @required this.textColor,
     @required this.onPressed,
@@ -30,6 +29,7 @@ class CustomRaisedButton extends StatelessWidget {
               buttonText,
               style: TextStyle(
                 color: textColor,
+                fontFamily: 'Jua',
                 fontSize: buttonFontSize,
               ),
             ),
@@ -65,13 +65,13 @@ class AnswerButton extends StatelessWidget {
       buttonWidth: 700,
       buttonFontSize: 18,
       buttonHeight: 70,
-      // buttonTextPadding: 25,
       buttonColor: Colors.grey[800],
       textColor: Colors.white,
       onPressed: () => answerPressed(
         currentQuestionData[answerIndex + 1],
         currentQuestionData[answerIndex + 2],
         currentQuestionData[answerIndex + 3],
+        thisButtonNumber,
       ),
     );
   }

@@ -11,7 +11,11 @@
     Fore more details:
     * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
   -->
+
   <base href="/">
+
+  <meta name="naver-site-verification" content="69ff7e8d551995f81b4b333189d37a9d9be5fc4e" />
+  <script data-ad-client="ca-pub-6591756952014353" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
   <title>포켓몬 실전배틀 유형테스트 | 당신의 실전배틀 성향을 알아보세요!</title>
   <link rel="manifest" href="manifest.json">
@@ -21,12 +25,18 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="나는 어떤 유형의 트레이너일까? 당신의 실전배틀 성향을 알아보세요.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="naver-site-verification" content="69ff7e8d551995f81b4b333189d37a9d9be5fc4e" />
+
   <meta property="og:url" content="https://pokemon-personality-test.ga" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="포켓몬 실전배틀 유형테스트" />
   <meta property="og:description" content="나는 어떤 유형의 트레이너일까? 당신의 실전배틀 성향을 알아보세요." />
-  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/pokemon-personality-test.appspot.com/o/%EA%B2%B0%EA%B3%BC%20%EC%9D%B4%EB%AF%B8%EC%A7%80%2Fresult-7.jpg?alt=media&token=838bc7fd-9507-4e67-bec7-c86c4f66577a" />
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/pokemon-personality-test.appspot.com/o/%EA%B2%B0%EA%B3%BC%20%EC%9D%B4%EB%AF%B8%EC%A7%80%2Fresult-4.webp?alt=media&token=b60dbc74-2f70-4a68-bb43-d29d856794f2" />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://pokemon-personality-test.ga">
+  <meta name="twitter:title" content="포켓몬 실전배틀 유형테스트">
+  <meta name="twitter:description" content="나는 어떤 유형의 트레이너일까? 당신의 실전배틀 성향을 알아보세요.">
+  <meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/pokemon-personality-test.appspot.com/o/%EA%B2%B0%EA%B3%BC%20%EC%9D%B4%EB%AF%B8%EC%A7%80%2Fresult-4.webp?alt=media&token=b60dbc74-2f70-4a68-bb43-d29d856794f2">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -36,31 +46,41 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
-
+          
 </head>
 <body>
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script src="/__/firebase/8.2.1/firebase-app.js"></script>
+  <script src="/__/firebase/8.2.1/firebase-firestore.js"></script>
+  <script src="/__/firebase/8.2.1/firebase-analytics.js"></script>
+  <script src="/__/firebase/init.js"></script>
+
+  
+  <!-- https://firebase.google.com/docs/web/setup#available-libraries  -->
+
+  <!-- for localhost -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+
+  <script type="module" src="./firebase_api_config.js"></script>
+  <script type="module" > 
+    import { firebaseConfig } from './firebase_api_config.js';
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+
+<!-- This script installs service_worker.js to provide PWA functionality to
+  application. For more information, see:
+  https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js');
-      });
-    }
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('flutter-first-frame', function () {
+      navigator.serviceWorker.register('flutter_service_worker.js');
+    });
+  }
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
 
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="/__/firebase/8.2.1/firebase-app.js"></script>
-
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-      https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="/__/firebase/8.1.2/firebase-firestore.js"></script>
-  <script src="/__/firebase/8.2.1/firebase-analytics.js"></script>
-
-  <!-- Initialize Firebase -->
-  <script src="/__/firebase/init.js"></script>
 </body>
 </html>

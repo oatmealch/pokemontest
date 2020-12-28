@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import '../pages/overview_page.dart';
 import '../pages/results_page.dart';
-
-// class Routes {
-//   Routes._();
-
-//   static const String routeToResultPage = '/result';
-
-//   static final routes = <String, WidgetBuilder>{
-//     routeToResultPage: (BuildContext context) => ResultPage('1', ''),
-//   };
-// }
 
 class FluroRoutes {
   static FluroRouter fluroRouter = FluroRouter();
   static const String routeToResultPage = '/result/:id/:sharedCheck';
+  static const String routeToOverviewPage = '/overview';
+
+  static Handler resultHandler =
+      Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return ResultPage(params['id'][0], params['sharedCheck'][0]);
+  });
+
+  static Handler overviewHandler =
+      Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return OverviewPage();
+  });
+
   static void setupRouter() {
-    var resultHandler = Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-      return ResultPage(params['id'][0], params['sharedCheck'][0]);
-    });
     fluroRouter.define(routeToResultPage, handler: resultHandler);
+    fluroRouter.define(routeToOverviewPage, handler: overviewHandler);
   }
 }
